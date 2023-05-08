@@ -27,14 +27,18 @@ public class BankServer {
     }
 
     private void runBank() throws IOException {
+        System.out.println("Bank server is running, waiting for connections...");
         while (connected) {
             Socket connectionSocket = bankServerSocket.accept();
+            System.out.println("Connection established with " + connectionSocket.getInetAddress() + ":" + connectionSocket.getPort());
             ObjectOutputStream outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
             ObjectInputStream inputStream = new ObjectInputStream(connectionSocket.getInputStream());
             ClientManager clientManager = new ClientManager(connectionSocket, outputStream, inputStream, bank);
             Thread bankThread = new Thread(clientManager);
             bankThread.start();
         }
+        //Disconnected
+        bankServerSocket.close();
     }
 
 }
