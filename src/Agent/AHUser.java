@@ -10,6 +10,11 @@ public class AHUser {
     ObjectInputStream auctionIn;
     ObjectOutputStream bankOut;
     ObjectInputStream bankIn;
+    Agent agent;
+    Socket bankSocket;
+    int auctionHouseID;
+    int PORT = 5555;
+    String IP;
 
 
     public void refreshConnection(Socket socket) throws IOException {
@@ -20,5 +25,7 @@ public class AHUser {
         bankOut = new ObjectOutputStream(socket.getOutputStream());
         bankIn = new ObjectInputStream(socket.getInputStream());
     }
+
+    
 
 }
