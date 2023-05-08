@@ -1,6 +1,8 @@
 package Bank;
 
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -27,10 +29,10 @@ public class BankServer {
     private void runBank() throws IOException {
         while (connected) {
             Socket connectionSocket = bankServerSocket.accept();
-            // TODO: Init INPUT/OUTPUT streams for the connecting house/agent
-
-
-            Thread bankThread = new Thread();
+            ObjectOutputStream outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
+            ObjectInputStream inputStream = new ObjectInputStream(connectionSocket.getInputStream());
+            ClientManager clientManager = new ClientManager(connectionSocket, outputStream, inputStream, bank);
+            Thread bankThread = new Thread(clientManager);
             bankThread.start();
         }
     }
