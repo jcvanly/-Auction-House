@@ -1,10 +1,10 @@
 package Agent;
 
 import AuctionHouse.AuctionHouse;
-
+import java.io.Serializable;
 import java.util.List;
 
-public class Agent {
+public class Agent implements Serializable {
 
     private List<AuctionHouse> availableHouses;
     private int accountNumber;
