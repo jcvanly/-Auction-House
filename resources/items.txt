@@ -1,0 +1,60 @@
+Toilet Throne,10000,A solid gold toilet that belonged to a wealthy prince.
+Pogo Stick Rocket,50000,A pogo stick modified to launch you into space.
+Cursed Painting,100000,A painting that comes with a warning of mysterious occurrences happening to its previous owners.
+Time-Traveling Phone Booth,500000,A phone booth that can transport you through time and space.
+Unicorn Horn,5000,A real, authentic unicorn horn.
+Invisibility Cloak,250000,A cloak that makes you invisible to the naked eye.
+Shark Suit,25000,A suit made entirely of sharkskin.
+Flying Carpet,100000,A carpet that can fly you anywhere you desire.
+Haunted Doll,50000,A doll that is said to be possessed by a ghost.
+Giant Rubber Duck,10000,A giant rubber duck that can float in your pool.
+Levitating Chair,50000,A chair that floats in mid-air.
+Dragon Egg,5000,A genuine dragon egg that is said to hatch into a real dragon.
+Inflatable Mansion,1000000,A mansion that can be inflated and deflated for easy transport.
+Laser Sword,100000,A sword that emits a laser beam when swung.
+Mermaid Tail,10000,A real mermaid tail that you can wear to swim like a mermaid.
+Giant Slingshot,25000,A slingshot that can launch you over a mile away.
+Selfie Stick of Destiny,5000,A selfie stick that gives you good luck when taking pictures.
+Alien Autopsy Table,500000,A table used to perform autopsies on real aliens.
+Time Crystal,250000,A crystal that can manipulate time and space.
+Jetpack,50000,A jetpack that can take you anywhere you want to go.
+Glow-in-the-Dark Paint,10000,A paint that glows in the dark.
+Shark Tank Bed,100000,A bed that is inside a shark tank for the ultimate thrill-seekers.
+Magic Carpet Bag,25000,A bag that can hold anything, no matter the size or weight.
+Robot Butler,500000,A robot that can do anything a butler can do.
+Unbreakable Golf Clubs,5000,A set of golf clubs that cannot be broken.
+The Holy Grail,1000000,The actual Holy Grail.
+Teleportation Device,500000,A device that can transport you to any location in the world.
+Alien Baby,100000,A real alien baby preserved in formaldehyde.
+Levitating Shoes,50000,Shoes that can make you levitate off the ground.
+X-Ray Glasses,10000,Glasses that allow you to see through walls and clothing.
+Giant Hamster Ball,50000,A hamster ball big enough for humans to roll around in.
+Zombie Apocalypse Survival Kit,100000,A kit with everything you need to survive a zombie apocalypse.
+Flying Car,1000000,A car that can transform into a plane and fly you to your destination.
+Time-Traveling Delorean,500000,A replica of the Delorean from Back to the Future that can actually travel through time.
+Super Suit,250000,A suit that gives you superhuman strength and agility.
+Sonic Screwdriver,25000,A tool that can open any lock and perform other amazing feats.
+Giant Beach Ball,10000,A beach ball that's big enough to fit an entire family.
+Telekinetic Helmet,50000,A helmet that allows you to move objects with your mind.
+Clone Machine,500000,A machine that can create a perfect clone of anyone who steps inside.
+Ghostbuster Proton Pack,100000,A pack that can capture and contain ghosts.
+Time-Traveling Hot Tub,250000,A hot tub that can transport you through time and space.
+Alien Translator,50000,A device that can translate any language spoken by an alien.
+Anti-Gravity Device,100000,A device that can make objects float in mid-air.
+Superpower Serum,500000,A serum that can grant you a random superpower.
+Giant Bubble Maker,10000,A machine that can create giant bubbles that you can float inside.
+Invisibility Watch,250000,A watch that can make you invisible for a short period of time.
+Time-Traveling Hoverboard,50000,A hoverboard that can travel through time.
+Robot Pet,25000,A pet that is actually a robot.
+Giant LEGO Set,100000,A LEGO set that's big enough to build a life-sized structure.
+Mind-Control Device,500000,A device that can control the minds of others.
+Portable Hole,25000,A hole that can be carried around and used as a shortcut.
+Brain-Enhancing Pills,100000,Pills that can enhance your cognitive abilities and intelligence.
+Giant Jenga Set,5000,A Jenga set that's big enough for adults to play with.
+Inflatable Car,50000,A car that can be inflated and deflated for easy transport.
+Reality Warping Ring,500000,A ring that can bend reality to your will.
+Giant Chess Set,25000,A chess set that's big enough to play with human-sized pieces.
+Remote Control Helicopter Car,100000,A car that can fly like a helicopter and be controlled by a remote.
+Super Slinky,5000,A Slinky that can climb stairs on its own.
+Invisibility Paint,100000,A paint that can make objects invisible.
+Portable Wormhole,250000,A device that can create a wormhole to any location in the universe.
