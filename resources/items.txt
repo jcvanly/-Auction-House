@@ -2,7 +2,7 @@ Toilet Throne,10000,A solid gold toilet that belonged to a wealthy prince.
 Pogo Stick Rocket,50000,A pogo stick modified to launch you into space.
 Cursed Painting,100000,A painting that comes with a warning of mysterious occurrences happening to its previous owners.
 Time-Traveling Phone Booth,500000,A phone booth that can transport you through time and space.
-Unicorn Horn,5000,A real, authentic unicorn horn.
+Unicorn Horn,5000,A real authentic unicorn horn.
 Invisibility Cloak,250000,A cloak that makes you invisible to the naked eye.
 Shark Suit,25000,A suit made entirely of sharkskin.
 Flying Carpet,100000,A carpet that can fly you anywhere you desire.
