@@ -64,6 +64,30 @@ public class AHServer {
         bankOutputStream = new ObjectOutputStream(bankSocket.getOutputStream());
         bankInputStream = new ObjectInputStream(bankSocket.getInputStream());
 
+        // TODO: SEND CONNECTION MESSAGE TO THE BANK
+
+        Thread clientListener = new Thread(this::clientConnection);
+        clientListener.start();
+    }
+
+    private void clientConnection() {
+        while(true){
+            System.out.println("Waiting for an agent to connect...");
+            //Connection from agent or auction house
+            try {
+                Socket connectionSocket = ahServerSocket.accept();
+                ObjectOutputStream agentOutputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
+                ObjectInputStream agentInputStream= new ObjectInputStream(connectionSocket.getInputStream());
+                System.out.println("Agent Connection established with " + connectionSocket.getInetAddress() + ":" + connectionSocket.getPort());
+                AHClientManager ahClientManager = new AHClientManager(connectionSocket, agentOutputStream, agentInputStream,bankOutputStream,bankInputStream,auctionHouse);
+                Thread thread = new Thread(ahClientManager);
+                System.out.println("starting thread.");
+                thread.start();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
     }
 
 
