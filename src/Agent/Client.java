@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 import static Messages.AgentActions.*;
 
-public class Client implements Runnable{
+public class Client {
 
     private final String bankIP;
     private ObjectOutputStream out;
@@ -94,7 +94,7 @@ public class Client implements Runnable{
     }
 
     private Socket safeConnect(String ip,int port)throws IOException{
-        Socket connectionSocket = null;
+        Socket connectionSocket;
         boolean connected = false;
         while(!connected) {
             try{
@@ -102,7 +102,7 @@ public class Client implements Runnable{
                 connected = true;
                 System.out.println("Connection successful");
                 return connectionSocket;
-            }catch (ConnectException e) {
+            } catch (ConnectException e) {
                 System.out.println("Connection failed, trying again");
             }
             try {
@@ -113,7 +113,7 @@ public class Client implements Runnable{
         return  null;
     }
 
-    private void validDateAgentAwait(Scanner sc){
+    private void validDateAgentAwait(Scanner sc) {
         String confirm;
         while(true){
             System.out.println("There are currently " +
@@ -121,19 +121,16 @@ public class Client implements Runnable{
                     +" Auction Houses available\nDo you want to wait for " +
                     "more Auction Houses to join? (yes/no)");
             confirm = sc.nextLine();
-            if(confirm.equals("no"))break;
+            if (confirm.equals("no")) break;
             refreshConnection();
 
             try{
                 Thread.sleep(1000);
-                AgentMessage updateHouses = new AgentMessage(
-                        AGENT_UPDATE_AUCTION,agent,"");
+                AgentMessage updateHouses = new AgentMessage(AGENT_UPDATE_AUCTION,agent,"");
                 out.writeUnshared(updateHouses);
                 BankMessage update =  (BankMessage) in.readUnshared();
                 agent.setAvailableHouses(update.getHouses());
-            }catch (IOException |
-                    InterruptedException|
-                    ClassNotFoundException sie){}
+            } catch (IOException | InterruptedException| ClassNotFoundException sie) {}
         }
     }
 
@@ -171,11 +168,6 @@ public class Client implements Runnable{
             index = sc.nextInt();
         } while (!indices.contains(index));
         return index;
-    }
-
-    @Override
-    public void run() {
-
     }
 
     /**
