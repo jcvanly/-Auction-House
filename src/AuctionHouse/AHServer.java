@@ -23,7 +23,7 @@ public class AHServer {
         this.ahPort = ahPort;
 
         ahServerSocket = new ServerSocket(ahPort);
-        auctionHouse = new AuctionHouse();
+        auctionHouse = new AuctionHouse(ahIPAddress, ahPort, "items.txt");
 
         connectToBankServer();
 
