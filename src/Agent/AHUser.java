@@ -1,10 +1,18 @@
 package Agent;
 
+import AuctionHouse.AgentClient;
+import AuctionHouse.AuctionHouse;
+import Messages.AgentMessage;
+import Messages.BankMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Scanner;
+
+import static Messages.AgentActions.AGENT_UPDATE_AUCTION;
 
 public class AHUser {
     ObjectOutputStream auctionOut;
@@ -99,4 +107,62 @@ public class AHUser {
         }
     }
 
+    private int validateAgentAuctionHouseChoice(Agent agent,Scanner sc){
+        int index;
+        ArrayList<Integer> indices = new ArrayList<>();
+        agent.getAvailableHouses().forEach(e->indices.add(e.getAuctionID()));
+        do {
+            System.out.println("Please join an Auction house " +
+                    "by typing in their ID below");
+            System.out.print("IDs: ");
+            agent.getAvailableHouses().forEach(e ->
+                    System.out.print(e.getAuctionID() + " "));
+            System.out.println();
+            while (!sc.hasNextInt()) {
+                System.out.println("Enter a valid Auction House number");
+                sc.next();
+            }
+            index = sc.nextInt();
+        } while (!indices.contains(index) );
+
+        for (int i = 0; i < agent.getAvailableHouses().size(); i++) {
+            if(agent.getAvailableHouses().get(i).getAuctionID() == index){
+                return  i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Validates whether the agents should await for more auction houses
+     * @param sc of type Scanner
+     */
+    private void agentAuctionChoice(Scanner sc) {
+        String confirm;
+        while (true) {
+            if (agent.getAvailableHouses().size() == 0) {
+                System.out.println("There are currently no " +
+                        "Auction Houses available" +
+                        ", currently updating list of Auction Houses ");
+            } else {
+                System.out.println("There are currently " +
+                        agent.getAvailableHouses().size()
+                        + " Auction Houses available\nDo you want you wait " +
+                        "for more Auction Houses to join? (yes/no)");
+                confirm = sc.nextLine();
+                if (confirm.equals("no")) break;
+            }
+            try {
+                Thread.sleep(1000);
+                AgentMessage updateHouses = new AgentMessage
+                        (AGENT_UPDATE_AUCTION, agent, "");
+                bankOut.writeUnshared(updateHouses);
+                BankMessage update = (BankMessage) bankIn.readUnshared();
+                agent.setAvailableHouses(update.getHouses());
+            } catch (IOException |
+                     InterruptedException |
+                     ClassNotFoundException sie) {
+            }
+        }
+    }
 }
