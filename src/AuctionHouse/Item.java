@@ -37,6 +37,10 @@ public class Item implements Serializable {
         this.won = false;
     }
 
+    /**
+     * If won
+     * @return won
+     */
     public boolean isWon() {
         return won;
     }
@@ -96,7 +100,7 @@ public class Item implements Serializable {
     }
 
     /**
-     * getCurrBid gets currBide
+     * getCurrBid gets currBid
      * @return currBid
      */
     public double getCurrBid(){return currBid;}
