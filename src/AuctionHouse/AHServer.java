@@ -11,19 +11,15 @@ public class AHServer {
     private final ServerSocket ahServerSocket;
     private final AuctionHouse auctionHouse;
     private final String bankIPAddress;
-    private final String ahIPAddress;
-    private final int ahPort;
 
     private ObjectOutputStream bankOutputStream;
     private ObjectInputStream bankInputStream;
 
     public AHServer(String bankIPAddress, String ahIPAddress, int ahPort) throws IOException, InterruptedException {
         this.bankIPAddress = bankIPAddress;
-        this.ahIPAddress = ahIPAddress;
-        this.ahPort = ahPort;
 
         ahServerSocket = new ServerSocket(ahPort);
-        auctionHouse = new AuctionHouse();
+        auctionHouse = new AuctionHouse(ahIPAddress, ahPort, "items.txt");
 
         connectToBankServer();
 

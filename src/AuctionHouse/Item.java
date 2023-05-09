@@ -1,3 +1,8 @@
+/**
+ * CS351L Project 5: Auction House
+ * by: Ruby Ta, Marina Seheon, Joseph Barela
+ */
+
 package AuctionHouse;
 
 import java.io.Serializable;
@@ -17,11 +22,10 @@ public class Item implements Serializable {
 
     /**
      * Item to be created from qualifying information.
-     * @param name name of item of tyoe String
+     * @param name name of item of type String
      * @param description description of item of type String
      */
-    public Item(String name, double price,
-                String description, int itemID, int houseId){
+    public Item(String name, double price, String description, int itemID, int houseId){
         this.name = name;
         this.price = price;
         this.description = description;

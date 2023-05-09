@@ -1,8 +1,10 @@
 package AuctionHouse;
 
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class AHClientManager implements Runnable {
 
@@ -38,6 +40,12 @@ public class AHClientManager implements Runnable {
 
     }
 
+    /**
+     * Win the bid
+     * @param item of type Item
+     */
+    public void winBid(Item item) {
 
+    }
 
 }
