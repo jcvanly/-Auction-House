@@ -1,5 +1,6 @@
 package AuctionHouse;
 
+import Messages.AuctionHouseMessage;
 import Messages.BankMessage;
 
 import java.io.IOException;
@@ -8,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Scanner;
+
+import static Messages.AuctionHouseActions.AUCTION_REGISTER;
 
 public class AHServer {
     private final ServerSocket ahServerSocket;
