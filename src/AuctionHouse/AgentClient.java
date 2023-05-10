@@ -74,7 +74,6 @@ public class AgentClient implements Runnable {
             }
         }
     }
-
     /**
      * Validate input
      * @param sc of type Scanner
@@ -165,4 +164,3 @@ public class AgentClient implements Runnable {
     }
 
 }
-
