@@ -18,7 +18,7 @@ public class BankServer {
         System.out.println("Starting the bank server...");
 
         bankServerSocket = new ServerSocket(bankPort);
-        bank = new Bank();
+        bank = new Bank(55555);
         runBank();
     }
 
@@ -33,7 +33,7 @@ public class BankServer {
             System.out.println("Connection established with " + connectionSocket.getInetAddress() + ":" + connectionSocket.getPort());
             ObjectOutputStream outputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
             ObjectInputStream inputStream = new ObjectInputStream(connectionSocket.getInputStream());
-            ClientManager clientManager = new ClientManager(connectionSocket, outputStream, inputStream, bank);
+            ClientManager clientManager = new ClientManager(connectionSocket, outputStream, inputStream, bank, true);
             Thread bankThread = new Thread(clientManager);
             bankThread.start();
         }

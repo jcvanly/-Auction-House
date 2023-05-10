@@ -127,14 +127,13 @@ public class AuctionHouse implements Serializable {
      */
     private void loadItems(String file){
         try {
-            BufferedReader bReader = new BufferedReader(new FileReader(file));
+            BufferedReader bReader = new BufferedReader((new InputStreamReader(getClass().getResourceAsStream("/items.txt"))));
             String line;
 
             // Read in the items
             while ((line = bReader.readLine()) != null) {
                 String[] x = line.split(",");
-                Item item = new Item(x[0],
-                        Integer.parseInt(x[1]), x[2], 0, 0);
+                Item item = new Item(x[0],Integer.parseInt(x[1]), x[2], 0, 0);
                 items.add(item);
             }
         } catch (FileNotFoundException e) {
