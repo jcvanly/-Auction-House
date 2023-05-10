@@ -10,7 +10,7 @@ public class AuctionHouse implements Serializable {
     private final List<Item> items;
     private final List<Item> itemsToSell;
     private int auctionID = 0;
-    private final String ip;
+    private String ip;
     private final int port;
     private final boolean running;
     private int currItemId;
@@ -163,5 +163,9 @@ public class AuctionHouse implements Serializable {
 
     public int getPort() {
         return port;
+    }
+
+    public void setIP(String ahIP) {
+        this.ip = ahIP;
     }
 }

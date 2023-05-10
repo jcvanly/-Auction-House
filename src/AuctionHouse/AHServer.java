@@ -20,18 +20,19 @@ public class AHServer {
     private ObjectOutputStream bankOut;
     private ObjectInputStream bankIn;
     private final int bankPort = 55555;
-    private final String IP;
+    private final String bankIP;
+    private String ahIP;
 
     /**
      * AuctionHouseServer constructor create the Auction House Server
      */
-    public AHServer(int auctionHousePort, String ip){
-        IP = ip;
-
+    public AHServer(int auctionHousePort, String ip) throws UnknownHostException {
+        bankIP = ip;
         try {
             System.out.println("creating Auction House server socket.");
             ahs_sock = new ServerSocket(auctionHousePort);
-            AH = new AuctionHouse(IP, auctionHousePort,"resources/items.txt");
+
+            AH = new AuctionHouse(ahIP, auctionHousePort,"resources/items.txt");
 
             connectionThread();
         } catch (IOException e) {
@@ -70,11 +71,11 @@ public class AHServer {
      * connectionThread creates a connection thread
      */
     private void connectionThread(){
-        //Connect and register with the bank to setup a new account
-        // and be added to the list of auction houses
         try{
-            Socket bankSocket = safeConnect(IP, bankPort);
+            Socket bankSocket = safeConnect(bankIP, bankPort);
             System.out.println("Connected to the Bank");
+            ahIP = bankSocket.getLocalAddress().getHostAddress();
+            AH.setIP(ahIP);
             bankOut= new ObjectOutputStream(bankSocket.getOutputStream());
             bankIn = new ObjectInputStream(bankSocket.getInputStream());
 
@@ -122,7 +123,7 @@ public class AHServer {
      * main starts the program
      * @param args argument
      */
-    public static void main (String[] args) {
+    public static void main (String[] args) throws UnknownHostException {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter the Bank's IP:");
         String bankIP = scan.nextLine();
