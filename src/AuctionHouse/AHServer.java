@@ -1,5 +1,7 @@
 package AuctionHouse;
 
+import Messages.BankMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -60,7 +62,20 @@ public class AHServer {
         bankOutputStream = new ObjectOutputStream(bankSocket.getOutputStream());
         bankInputStream = new ObjectInputStream(bankSocket.getInputStream());
 
-        // TODO: SEND CONNECTION MESSAGE TO THE BANk confirming connection
+        AuctionHouseMessage registerAH = new AuctionHouseMessage(AUCTION_REGISTER, auctionHouse,"");
+        bankOutputStream.writeUnshared(registerAH);
+        try{
+            BankMessage message = (BankMessage)bankInputStream.readUnshared();
+            System.out.println(message.getReply());
+            auctionHouse.setAuctionID(message.getAccountNumber());
+        }
+        catch (ClassNotFoundException e){e.printStackTrace();}
+        catch (Exception e){e.printStackTrace();}
+
+        //flush output
+        bankOutputStream.flush();
+
+
 
         Thread clientListener = new Thread(this::clientConnection);
         clientListener.start();

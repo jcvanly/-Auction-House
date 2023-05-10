@@ -33,6 +33,11 @@ public class AuctionHouse implements Serializable {
 
         loadItems(itemListFile);
 
+        generateItem();
+        generateItem();
+        generateItem();
+        counter();
+
     }
 
     /**

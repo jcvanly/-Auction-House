@@ -1,10 +1,7 @@
 package AuctionHouse;
 
 import Agent.Agent;
-import Messages.AgentActions;
-import Messages.AgentMessage;
-import Messages.BidMessage;
-import Messages.GetItemMessage;
+import Messages.*;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
