@@ -1,94 +1,135 @@
 package AuctionHouse;
 
+import Messages.AuctionHouseMessage;
+import Messages.BankMessage;
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.net.*;
 import java.util.Scanner;
 
+import static Messages.AuctionHouseActions.AUCTION_REGISTER;
+
+/**
+ * AuctionHouseServer creates the Auction House Server
+ */
 public class AHServer {
-    private final ServerSocket ahServerSocket;
-    private final AuctionHouse auctionHouse;
-    private final String bankIPAddress;
+    private ServerSocket ahs_sock;
+    private AuctionHouse AH;
+    private ObjectOutputStream bankOut;
+    private ObjectInputStream bankIn;
+    private final int bankPort = 55555;
+    private final String bankIP;
+    private String ahIP;
 
-    private ObjectOutputStream bankOutputStream;
-    private ObjectInputStream bankInputStream;
+    /**
+     * AuctionHouseServer constructor create the Auction House Server
+     */
+    public AHServer(int auctionHousePort, String ip) throws UnknownHostException {
+        bankIP = ip;
+        try {
+            System.out.println("creating Auction House server socket.");
+            ahs_sock = new ServerSocket(auctionHousePort);
 
-    public AHServer(String bankIPAddress, String ahIPAddress, int ahPort) throws IOException, InterruptedException {
-        this.bankIPAddress = bankIPAddress;
+            AH = new AuctionHouse(ahIP, auctionHousePort,"resources/items.txt");
 
-        ahServerSocket = new ServerSocket(ahPort);
-        auctionHouse = new AuctionHouse(ahIPAddress, ahPort, "items.txt");
-
-        connectToBankServer();
-
+            connectionThread();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        Scanner scnr = new Scanner(System.in);
-        System.out.println("Enter the IP ADDRESS of the Bank:");
-        String bankIP = scnr.nextLine();
-        System.out.println("Enter the IP ADDRESS of this Auction House:");
-        String ahIP = scnr.nextLine();
-        System.out.println("Enter the PORT of this Auction House:");
-        int ahPort = scnr.nextInt();
-        new AHServer(bankIP, ahIP, ahPort);
-    }
-
-    private Socket connectTo(String ip, int port) throws InterruptedException {
-        Socket socket = null;
+    /**
+     * Safely handles socket connections, tries again on failure
+     * @param ip ip number of type String
+     * @param port port number of type int
+     * @return socket
+     */
+    private Socket safeConnect(String ip,int port)throws IOException{
+        Socket s;
         boolean connected = false;
-        while (!connected) {
-            try {
-                socket = new Socket(ip, port);
+        while(!connected) {
+            try{
+                s = new Socket(ip, port);
                 connected = true;
                 System.out.println("Connection successful");
-            } catch (IOException e) {
-                System.out.println("Connection failed, trying again...");
-                Thread.sleep(1000);
+                return s;
+
+            }catch (ConnectException e) {
+                System.out.println("Connect failed, trying again");
             }
+            try{
+                Thread.sleep(2000);
+            }catch (InterruptedException ie){}
         }
-        return socket;
+        System.out.println("Failure");
+        return  null;
     }
 
+    /**
+     * connectionThread creates a connection thread
+     */
+    private void connectionThread(){
+        try{
+            Socket bankSocket = safeConnect(bankIP, bankPort);
+            System.out.println("Connected to the Bank");
+            ahIP = bankSocket.getLocalAddress().getHostAddress();
+            AH.setIP(ahIP);
+            bankOut= new ObjectOutputStream(bankSocket.getOutputStream());
+            bankIn = new ObjectInputStream(bankSocket.getInputStream());
 
-    private void connectToBankServer() throws InterruptedException, IOException {
-        Socket bankSocket = connectTo(bankIPAddress, 55555);
-        System.out.println("Connection established with bank @ " + bankSocket.getInetAddress() + ":" + bankSocket.getPort());
+            AuctionHouseMessage registerAH = new AuctionHouseMessage(AUCTION_REGISTER, AH,"");
+            bankOut.writeUnshared(registerAH);
+            try{
+                BankMessage message = (BankMessage)bankIn.readUnshared();
+                System.out.println(message.getReply());
+                AH.setAuctionID(message.getAccountNumber());
+            }catch (ClassNotFoundException e){e.printStackTrace();}
+            catch (Exception e){e.printStackTrace();}
 
-        bankOutputStream = new ObjectOutputStream(bankSocket.getOutputStream());
-        bankInputStream = new ObjectInputStream(bankSocket.getInputStream());
+            //flush output
+            bankOut.flush();
 
-        // TODO: SEND CONNECTION MESSAGE TO THE BANk confirming connection
 
-        Thread clientListener = new Thread(this::clientConnection);
-        clientListener.start();
-    }
+        }catch (IOException e ){e.printStackTrace();}
 
-    private void clientConnection() {
-        while(true){
-            //Connection from agent or auction house
+        //Create a thread to listen in on agent connections
+        Thread listener = new Thread(()->{
             try {
-                System.out.println("Waiting for an agent to connect...");
-                Socket connectionSocket = ahServerSocket.accept();
-                ObjectOutputStream agentOutputStream = new ObjectOutputStream(connectionSocket.getOutputStream());
-                ObjectInputStream agentInputStream= new ObjectInputStream(connectionSocket.getInputStream());
-                System.out.println("Agent Connection established with " + connectionSocket.getInetAddress() + ":" + connectionSocket.getPort());
-                AHClientManager ahClientManager = new AHClientManager(connectionSocket, agentOutputStream,
-                        agentInputStream,bankOutputStream,
-                        bankInputStream,auctionHouse);
-
-                Thread thread = new Thread(ahClientManager);
-                System.out.println("Starting new thread for the connected agent");
-                thread.start();
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                while(true){
+                    System.out.println("waiting for agent connection");
+                    //Connection from agent or auction house
+                    Socket ah_sock = ahs_sock.accept();
+                    ObjectOutputStream agentOut= new
+                            ObjectOutputStream(ah_sock.getOutputStream());
+                    ObjectInputStream agentIn= new
+                            ObjectInputStream(ah_sock.getInputStream());
+                    System.out.println("Agent has connected to this server");
+                    AHClientManager aClient = new AHClientManager(ah_sock,
+                            agentOut, agentIn,bankOut,bankIn,AH);
+                    Thread thread = new Thread(aClient);
+                    System.out.println("starting thread.");
+                    thread.start();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-        }
+        });
+        listener.start();
     }
 
+    /**
+     * main starts the program
+     * @param args argument
+     */
+    public static void main (String[] args) throws UnknownHostException {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter the Bank's IP:");
+        String bankIP = scan.nextLine();
+        System.out.println("Set the port for this AH:");
+        int port = scan.nextInt();
+        new AHServer(port, bankIP);
 
-
+    }
 }

@@ -1,10 +1,13 @@
 package AuctionHouse;
 
+import Agent.Bid;
+import Messages.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AHClientManager implements Runnable {
 
@@ -34,11 +37,11 @@ public class AHClientManager implements Runnable {
     public void run() {
         while (true) {
             try {
-                Object m = agentIn.readUnshared();
+                Object m = agentInputStream.readUnshared();
                 System.out.println("Message Received");
                 if (m instanceof BidMessage bM) {
-                    bankNum = bM.getAcctNum();
-                    boolean checkInAuction = AH.bid(this, bM);
+                    int bankNum = bM.getAcctNum();
+                    boolean checkInAuction = auctionHouse.bid(this, bM);
                     //send to Agent
                     System.out.println(bM.getAcctNum());
                     //send to bank
@@ -48,8 +51,8 @@ public class AHClientManager implements Runnable {
                         AuctionHouseMessage message = new
                                 AuctionHouseMessage(AuctionHouseActions.
                                 AUCTION_REVIEW_BID, bid);
-                        bankOut.writeUnshared(message);
-                        BankMessage reply =(BankMessage)bankIn.readUnshared();
+                        bankOutputStream.writeUnshared(message);
+                        BankMessage reply =(BankMessage)bankInputStream.readUnshared();
                         System.out.println(reply.getAction());
                         boolean checkInBank = (reply.getAction() ==
                                 BankActions.BANK_ACCEPT);
@@ -59,20 +62,20 @@ public class AHClientManager implements Runnable {
                                 + checkInAuction);
                         BidMessage B = new BidMessage(checkInAuction &&
                                 checkInBank, bM.getItem());
-                        agentOut.writeUnshared(B);
+                        agentOutputStream.writeUnshared(B);
                     }else {
                         BidMessage B = new BidMessage(
                                 checkInAuction, bM.getItem());
-                        agentOut.writeUnshared(B);
+                        agentOutputStream.writeUnshared(B);
                     }
 
                 } else if (m instanceof GetItemMessage) {
                     System.out.println("In One");
-                    List<Item> item = AH.getItems();
+                    List<Item> item = auctionHouse.getItems();
                     GetItemMessage GI = new GetItemMessage(item);
-                    agentOut.reset();
-                    agentOut.writeUnshared(GI);
-                    agentOut.flush();
+                    agentOutputStream.reset();
+                    agentOutputStream.writeUnshared(GI);
+                    agentOutputStream.flush();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -91,7 +94,7 @@ public class AHClientManager implements Runnable {
         System.out.println("call to outbid");
         OutBidMessage OB = new OutBidMessage(item);
         try {
-            agentOut.writeUnshared(OB);
+            agentOutputStream.writeUnshared(OB);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -102,21 +105,21 @@ public class AHClientManager implements Runnable {
      */
     public void winningBid(Item item) {
         System.out.println("call to win bid");
-        ArrayList<Item> itemCopy = new ArrayList<>(AH.getItems());
+        ArrayList<Item> itemCopy = new ArrayList<>(auctionHouse.getItems());
         ItemWonMessage WM = new ItemWonMessage(item, item.getCurrBid());
         System.out.println(WM.getItem().getCurrBid());
         System.out.println("Before");
-        System.out.println(AH.getItems().size());
+        System.out.println(auctionHouse.getItems().size());
         for (int i = 0; i < itemCopy.size(); i++) {
             if(itemCopy.get(i).getItemID() == item.getItemID()) {
-                AH.getItems().remove(i);
-                AH.generateItem();
+                auctionHouse.getItems().remove(i);
+                auctionHouse.generateItem();
             }
         }
         System.out.println("After");
-        System.out.println(AH.getItems().size());
+        System.out.println(auctionHouse.getItems().size());
         try {
-            agentOut.writeUnshared(WM);
+            agentOutputStream.writeUnshared(WM);
         } catch (IOException e) {
             e.printStackTrace();
         }
