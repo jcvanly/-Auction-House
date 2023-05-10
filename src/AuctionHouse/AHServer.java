@@ -29,9 +29,8 @@ public class AHServer {
     public AHServer(int auctionHousePort, String ip) throws UnknownHostException {
         bankIP = ip;
         try {
-            System.out.println("creating Auction House server socket.");
+            System.out.println("Initializing Auction House Server...");
             ahs_sock = new ServerSocket(auctionHousePort);
-
             AH = new AuctionHouse(ahIP, auctionHousePort,"resources/items.txt");
 
             connectionThread();
@@ -76,6 +75,7 @@ public class AHServer {
             System.out.println("Connected to the Bank");
             ahIP = bankSocket.getLocalAddress().getHostAddress();
             AH.setIP(ahIP);
+            System.out.println("Auction House IP: " + ahIP);
             bankOut= new ObjectOutputStream(bankSocket.getOutputStream());
             bankIn = new ObjectInputStream(bankSocket.getInputStream());
 
