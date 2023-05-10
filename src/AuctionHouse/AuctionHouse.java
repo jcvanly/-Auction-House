@@ -13,22 +13,23 @@ public class AuctionHouse implements Serializable {
     private final int port;
     private final boolean alive;
     private int currItemId;
-    private final Map<Item, AuctionClient> bidMap;
+    private final Map<Item, AHClientManager> bidMap;
     private final Map<Integer, Item> accountHistory;
     private final int winTime = 10;
     private final double BID_OFFSET = 1000;
+    String file = "resources/items.txt";
 
     //List of states of each agent item
 
     /**
      * Constructor initializing an Auction House.
      */
-    public AuctionHouse(String ip, int port, String file){
+    public AuctionHouse(){
         bidMap = new HashMap<>();
         accountHistory = new HashMap<>();
         alive = true;
-        this.ip = ip;
-        this.port = port;
+        this.ip = ip = null;
+        this.port = port = 0;
         this.items  = new ArrayList<>();
         this.itemsToSell = new ArrayList<>();
         this.currItemId = 0;
@@ -119,7 +120,7 @@ public class AuctionHouse implements Serializable {
      * @param bid bid message
      * @return true if bid successfully
      */
-    public boolean bid(AuctionClient client, BidMessage bid){
+    public boolean bid(AHClientManager client, BidMessage bid){
         for(Item i: itemsToSell){
             if(i.getItemID() == bid.getItem().getItemID()){
                 if(Double.compare( bid.getBid() , i.getMinBid())>= 0){
