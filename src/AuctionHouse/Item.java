@@ -1,4 +1,3 @@
-
 package AuctionHouse;
 
 import java.io.Serializable;
@@ -14,7 +13,6 @@ public class Item implements Serializable {
     private int houseId;
     private int itemCount;
     private boolean won;
-
 
     /**
      * Item to be created from qualifying information.
