@@ -99,11 +99,12 @@ public class AHClientManager implements Runnable {
             e.printStackTrace();
         }
     }
+
     /**
      * Win the bid
      * @param item of type Item
      */
-    public void winningBid(Item item) {
+    public void winBid(Item item) {
         System.out.println("call to win bid");
         ArrayList<Item> itemCopy = new ArrayList<>(auctionHouse.getItems());
         ItemWonMessage WM = new ItemWonMessage(item, item.getCurrBid());
@@ -123,14 +124,6 @@ public class AHClientManager implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * Win the bid
-     * @param item of type Item
-     */
-    public void winBid(Item item) {
-
     }
 
 }

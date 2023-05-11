@@ -116,12 +116,11 @@ public class Client {
     private void validDateAgentAwait(Scanner sc) {
         String confirm;
         while(true){
-            System.out.println("There are currently " +
-                    agent.getAvailableHouses().size()
-                    +" Auction Houses available\nDo you want to wait for " +
-                    "more Auction Houses to join? (yes/no)");
+            System.out.println("There are currently " + agent.getAvailableHouses().size() +" Auction Houses available\n");
+            System.out.println("Would you like to join a house? (y/n)");
             confirm = sc.nextLine();
-            if (confirm.equals("no")) break;
+            // equals ignore case
+            if (confirm.equalsIgnoreCase("y")) break;
             refreshConnection();
 
             try{
