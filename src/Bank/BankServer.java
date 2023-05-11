@@ -1,3 +1,8 @@
+/**
+CS 351 - Auction House
+Luke McDougal, Jack Vanlyssel, Spoorthi Menta
+**/
+
 package Bank;
 
 import java.io.IOException;
