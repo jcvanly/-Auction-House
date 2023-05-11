@@ -113,51 +113,49 @@ public class AgentClient implements Runnable {
     /**
      * Bid
      */
-    public void bid(){
+    public void bid() {
         try {
-            //print the stuff
-            System.out.print("Name  ");
-            items.forEach(e-> System.out.print("    " + e.getName()+"    "));
-            System.out.println();
-            System.out.print("Min bid:  ");
-            items.forEach(e-> System.out.print("$" + e.getMinBid()+"    "));
+            System.out.printf("%-25s", "Name");
+            items.forEach(e -> System.out.printf("%-25s", e.getName()));
             System.out.println();
 
-            for (int i = 1; i < items.size()+1; i++)
-                System.out.print("           "+ i + "    ");
+            System.out.printf("%-25s", "Min bid:");
+            items.forEach(e -> System.out.printf("%-25s", "$" + e.getMinBid()));
+            System.out.println();
+
+            System.out.printf("%-25s", "Selection:");
+            for (int i = 1; i < items.size() + 1; i++)
+                System.out.printf("%-25s", i);
             System.out.println();
 
             Scanner s = new Scanner(System.in);
-            int item = validateInput(s,items.size(),"Enter valid " +
-                    " item", "Enter valid item") ;
+            int item = validateInput(s, items.size(), "Enter valid item", "Enter valid item");
             ArrayList<Double> amounts = new ArrayList<>();
             double minAmount = items.get(item).getMinBid();
             double multiplier = 0;
             int choices = 3;
             NumberFormat formatter = NumberFormat.getCurrencyInstance();
-            for(int i=0; i < choices; i++){
+            for (int i = 0; i < choices; i++) {
                 amounts.add(minAmount + multiplier);
-                System.out.print(formatter.format(
-                        minAmount+multiplier)+"      ");
-                multiplier+=1000;
+                System.out.printf("%-25s", formatter.format(minAmount + multiplier));
+                multiplier += 1000;
             }
             System.out.println();
-            for (int i = 1; i < choices+1; i++) {
-                System.out.print("       " + i+"        ");
+            for (int i = 1; i < choices + 1; i++) {
+                System.out.printf("%-25s", i);
             }
             System.out.println();
-            int bidChoice = validateInput(s,amounts.size(),
-                    "Enter bid amount" +
-                            " out, "," Enter valid  bid choice");
+            int bidChoice = validateInput(s, amounts.size(), "Enter bid amount out, ", " Enter valid bid choice");
             System.out.println();
             System.out.println("Enter minimum bid amount: ");
             double x = amounts.get(bidChoice);
-            BidMessage b = new BidMessage(x, items.get(item),
-                    agent.getAccountNumber());
+            BidMessage b = new BidMessage(x, items.get(item), agent.getAccountNumber());
             auctionOut.writeUnshared(b);
             System.out.println("Sending that message");
             setItems();
-        }catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
