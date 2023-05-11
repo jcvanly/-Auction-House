@@ -1,4 +1,3 @@
-
 /* Out Bid Messages */
 
 package Messages;
@@ -20,6 +19,7 @@ public class OutBidMessage implements Serializable {
     public OutBidMessage(Item outBid){
         this.outBid = outBid;
     }
+
 
     /**
      * getOutBid gets the outBid
