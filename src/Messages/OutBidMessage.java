@@ -1,7 +1,3 @@
-/**
- * CS351L Project 5: Auction House
- * by: Ruby Ta, Marina Seheon, Joseph Barela
- */
 
 /* Out Bid Messages */
 
